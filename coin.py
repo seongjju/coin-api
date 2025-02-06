@@ -21,7 +21,7 @@ def get_coin():
     # 요청에 포함할 파라미터
     params = {
         'ids': ','.join(symbols),  # symbols에 있는 코인들을 콤마로 구분하여 전달
-        'vs_currencies': 'usd'     # 가격을 USD로 요청
+        'vs_currencies': 'usd,krw' # 가격을 USD와 KRW로 요청
     }
     
     try:
@@ -31,10 +31,12 @@ def get_coin():
         if response.status_code == 200:
             data = response.json()
 
-            # 각 코인의 가격을 가져와서 출력
+            # 각 코인의 가격을 가져와서 리스트에 추가
             for symbol in symbols:
                 if symbol in data:
-                    coin_prices.append(f"{symbol.capitalize()}: **${data[symbol]['usd']} USD**")
+                    usd_price = data[symbol]['usd']
+                    krw_price = data[symbol]['krw']
+                    coin_prices.append(f"{symbol.capitalize()}: **${usd_price} USD** / **₩{krw_price} KRW**")
                 else:
                     coin_prices.append(f"{symbol.capitalize()}: Price data missing")
         else:
@@ -43,7 +45,6 @@ def get_coin():
         coin_prices.append(f"Request failed ({e})")
     
     return coin_prices
-
 
 # README.md 파일을 업데이트하는 함수
 def update_readme():
@@ -72,8 +73,6 @@ def update_readme():
     # README.md 파일에 내용 쓰기
     with open(README_PATH, "w", encoding="utf-8") as file:
         file.write(readme_content)
-
-
 
 # 실행
 if __name__ == "__main__":

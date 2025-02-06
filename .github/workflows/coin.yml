@@ -1,5 +1,5 @@
-# .github/workflows/update_weather.yml
-name: Update Weather in README
+# .github/workflows/coin.yml
+name: Update CoinPrice in README
 
 on:
   schedule:
