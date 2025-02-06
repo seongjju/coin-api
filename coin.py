@@ -12,40 +12,52 @@ symbols = [
 README_PATH = "README.md"
 
 # 각 코인의 시세를 가져오는 함수
+import requests
+
+# 코인 리스트
+symbols = [
+    "bitcoin", "ethereum", "binancecoin", "ripple", "cardano",
+    "solana", "dogecoin", "litecoin", "polkadot", "bitcoin-cash"
+]
+
+# 각 코인의 시세를 가져오는 함수
 def get_coin():
     coin_prices = []
+    
+    # CoinGecko의 API URL
+    url = "https://api.coingecko.com/api/v3/simple/price"
+    
+    # 요청에 포함할 파라미터
+    params = {
+        'ids': ','.join(symbols),  # symbols에 있는 코인들을 콤마로 구분하여 전달
+        'vs_currencies': 'usd'     # 가격을 USD로 요청
+    }
+    
+    try:
+        response = requests.get(url, params=params)
+        
+        # 응답이 정상인 경우
+        if response.status_code == 200:
+            data = response.json()
 
-    for symbol in symbols:
-        url = f"https://api.binance.com/api/v3/ticker/price?symbol={symbol}"
-
-        try:
-            response = requests.get(url)
-
-            # 응답이 정상인 경우
-            if response.status_code == 200:
-                data = response.json()
-
-                # 'price' 키가 있는지 확인
-                if 'price' in data:
-                    coin_prices.append(f"{symbol}: {data['price']} USDT")
+            # 각 코인의 가격을 가져와서 출력
+            for symbol in symbols:
+                if symbol in data:
+                    coin_prices.append(f"{symbol.capitalize()}: {data[symbol]['usd']} USD")
                 else:
-                    coin_prices.append(f"{symbol}: Price data missing")
-
-            # API rate limit 초과시 처리
-            elif response.status_code == 429:
-                # `Retry-After` 헤더에서 대기 시간 추출
-                retry_after = response.headers.get('Retry-After', 1)  # 기본적으로 1초 대기
-                print(f"Rate limit exceeded. Waiting for {retry_after} seconds...")
-                time.sleep(int(retry_after))  # 대기 시간 동안 일시 정지 후 다시 시도
-
-            # 그 외의 오류 처리
-            else:
-                coin_prices.append(f"{symbol}: Error - API request failed with status code {response.status_code}")
-
-        except Exception as e:
-            coin_prices.append(f"{symbol}: Request failed ({e})")
-
+                    coin_prices.append(f"{symbol.capitalize()}: Price data missing")
+        else:
+            coin_prices.append(f"Error: API request failed with status code {response.status_code}")
+    except Exception as e:
+        coin_prices.append(f"Request failed ({e})")
+    
     return coin_prices
+
+
+# 실행
+if __name__ == "__main__":
+    coin_info = get_coin()
+    print("\n".join(coin_info))
 
 
 # README.md 파일을 업데이트하는 함수
