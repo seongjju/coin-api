@@ -39,7 +39,7 @@ def get_coin():
 
 
 def create_graph(coin_prices):
-    """Matplotlib로 그래프 생성 후 PNG 저장"""
+    """Matplotlib로 그래프 생성 후 PNG 저장 (로그 스케일 사용)"""
     coins = list(coin_prices.keys())
     prices = list(coin_prices.values())
 
@@ -48,6 +48,10 @@ def create_graph(coin_prices):
     plt.xlabel("Coins")
     plt.ylabel("Price (USD)")
     plt.title("Cryptocurrency Prices (USD)")
+
+    # y축을 로그 스케일로 설정
+    plt.yscale('log')
+
     plt.xticks(rotation=45)
     plt.tight_layout()
     plt.savefig(IMG_PATH)  # 이미지 저장
