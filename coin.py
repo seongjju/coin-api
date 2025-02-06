@@ -51,36 +51,24 @@ def update_readme():
     coin_info = get_coin()
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
-    # coin_info를 간결하게 만들기
+    # coin_info를 한 줄씩 출력되도록 처리
     coin_info_str = "\n".join(coin_info)
     
-    # README 내용 작성 (Markdown)
+    # README 내용 작성
     readme_content = f"""
 # COIN API Status
 
-이 리포지토리는 CoinGecko API를 사용하여 주요 암호화폐 시세를 자동으로 업데이트합니다.
+이 리포지토리는 **CoinGecko API**를 사용하여 코인 TOP 10 시세를 자동으로 업데이트합니다.
 
-## 📊 현재 시세
+## 현재 시세
+> {coin_info_str}
 
-다음은 현재 주요 암호화폐의 시세입니다:
-
-{coin_info_str}
-
-## ⏳ 업데이트 시간
-
-최종 업데이트 시간: **{now} (UTC)**
+⏳ 업데이트 시간: {now} (UTC)
 
 ---
-
-자동 업데이트 봇에 의해 관리됩니다.  
-[CoinGecko API](https://www.coingecko.com)에서 실시간 시세 정보를 제공합니다.
+자동 업데이트 봇에 의해 관리됩니다.
 """
 
     # README.md 파일에 내용 쓰기
     with open(README_PATH, "w", encoding="utf-8") as file:
         file.write(readme_content)
-
-
-# 실행
-if __name__ == "__main__":
-    update_readme()
