@@ -50,12 +50,11 @@ def update_readme():
     """README.md 파일을 업데이트"""
     coin_info = get_coin()
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    # coin_info를 한 줄에 3개씩 그룹화하여 출력
-    chunked_info = [", ".join(coin_info[i:i + 3]) for i in range(0, len(coin_info), 3)]
-    coin_info_str = "\n".join(chunked_info)
     
-    # README 내용 작성 (스타일 적용)
+    # coin_info를 한 줄씩 출력되도록 처리
+    coin_info_str = "\n".join(coin_info)
+    
+    # README 내용 작성
     readme_content = f"""
 # COIN API Status
 
