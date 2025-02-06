@@ -8,6 +8,7 @@ on:
 jobs:
   update-readme:
     runs-on: ubuntu-latest
+
     steps:
       - name: 리포지토리 체크아웃
         uses: actions/checkout@v3
@@ -17,9 +18,17 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: pip 캐시 설정
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
       - name: 코인 API로 시세 업데이트 및 그래프 생성
         run: |
-          pip install requests matplotlib
+          pip install -r requirements.txt  # 패키지 설치
           python coin.py
 
       - name: 변경 사항 커밋 및 푸시
