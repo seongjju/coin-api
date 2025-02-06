@@ -1,5 +1,5 @@
-# .github/workflows/coin.yml
-name: Update Coin in README
+# .github/workflows/update_weather.yml
+name: Update Weather in README
 
 on:
   schedule:
@@ -9,7 +9,7 @@ on:
 jobs:
   update-readme:
     runs-on: ubuntu-latest
-    steps:++
+    steps:
       - name: 리포지토리 체크아웃
         uses: actions/checkout@v3
 
