@@ -1,7 +1,6 @@
 import requests
 import os
 from datetime import datetime
-from dotenv import load_dotenv
 
 
 # 코인 리스트
