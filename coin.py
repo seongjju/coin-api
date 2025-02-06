@@ -52,7 +52,7 @@ def update_readme():
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     # coin_info를 한 줄씩 출력되도록 처리
-    coin_info_str = "\n".join(coin_info)
+    coin_info_str = "\n".join(coin_info)  # 한 줄에 한 코인씩 출력
     
     # README 내용 작성
     readme_content = f"""
@@ -61,7 +61,7 @@ def update_readme():
 이 리포지토리는 **CoinGecko API**를 사용하여 코인 TOP 10 시세를 자동으로 업데이트합니다.
 
 ## 현재 시세
-> {coin_info_str}
+{coin_info_str}
 
 ⏳ 업데이트 시간: {now} (UTC)
 
