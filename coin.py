@@ -72,12 +72,12 @@ def update_readme(coin_prices):
     readme_content = f"""
 # 📊 Cryptocurrency Prices (Updated)
 
-이 리포지토리는 CoinGecko API를 사용하여 코인 TOP 10 시세를 자동으로 업데이트합니다.
+이 리포지토리는 CoinGecko API를 사용하여 코인 TOP 10 시세를 1분가격으로 자동 업데이트합니다.
 
 ## 💰 현재 시세
 {coin_info_str}
 
-## 📈 시세 변화 그래프
+## 📈 시세 그래프 (로그 스케일 적용)
 ![Crypto Prices](crypto_prices.png)
 
 ⏳ 업데이트 시간: {now} (UTC)
