@@ -87,8 +87,12 @@ def update_readme(coin_prices):
 """
 
     # README.md 파일 저장
-    with open(README_PATH, "w", encoding="utf-8") as file:
-        file.write(readme_content)
+    try:
+        with open(README_PATH, "w", encoding="utf-8") as file:
+            file.write(readme_content)
+        print(f"README.md가 성공적으로 업데이트되었습니다.")
+    except Exception as e:
+        print(f"README.md 업데이트 중 오류 발생: {e}")
 
 
 # 실행
