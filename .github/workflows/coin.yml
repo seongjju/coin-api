@@ -1,4 +1,4 @@
-# .github/workflows/update_weather.yml
+# .github/workflows/update_.yml
 name: Update Weather in README
 
 on:
@@ -9,7 +9,7 @@ on:
 jobs:
   update-readme:
     runs-on: ubuntu-latest
-    steps:
+    steps:++
       - name: 리포지토리 체크아웃
         uses: actions/checkout@v3
 
