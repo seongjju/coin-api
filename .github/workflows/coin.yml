@@ -1,9 +1,8 @@
-# .github/workflows/coin.yml
 name: Update CoinPrice in README
 
 on:
   schedule:
-    - cron: "* * * * *"  # 매일 오후 3시 (UTC 기준 6시)
+    - cron: "* * * * *"  # 매분  실행
   workflow_dispatch:  # 수동 실행 가능
 
 jobs:
@@ -18,17 +17,15 @@ jobs:
         with:
           python-version: "3.x"
 
-      - name: coin API로 코인 시세 업데이트
+      - name: 코인 API로 시세 업데이트 및 그래프 생성
         run: |
-          pip install requests matplotlib plotext
+          pip install requests matplotlib
           python coin.py
-
 
       - name: 변경 사항 커밋 및 푸시
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add README.md
+          git add README.md crypto_prices.png
           git commit -m "자동 업데이트: 코인 정보 갱신" || echo "No changes to commit"
           git push
-
