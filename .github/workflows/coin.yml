@@ -20,7 +20,7 @@ jobs:
 
       - name: coin API로 코인 시세 업데이트
         run: |
-          pip install requests
+          pip install requests matplotlib
           python coin.py
 
 
