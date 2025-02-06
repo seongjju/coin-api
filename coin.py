@@ -3,10 +3,10 @@ import time
 from datetime import datetime
 import matplotlib.pyplot as plt
 
-
 # 코인 리스트
 symbols = [
-    "bitcoin"
+    "bitcoin", "ethereum", "binancecoin", "ripple", "cardano",
+    "solana", "dogecoin", "litecoin", "polkadot", "bitcoin-cash"
 ]
 
 # 파일 경로
@@ -38,35 +38,17 @@ def get_coin():
     return coin_prices
 
 
-def track_price():
-    """현재 시점에서 5분 간의 가격 추적 (최근 5개 가격 기록)"""
-    prices = []  # 가격을 저장할 리스트
-
-    for _ in range(5):  # 5번 가격을 추적 (5분)
-        coin_prices = get_coin()
-        price = coin_prices.get(symbols[0].capitalize(), None)
-        if price is not None:
-            prices.append(price)
-
-        time.sleep(60)  # 1분 간격으로 가격 추적
-
-    return prices
-
-
-def create_graph(prices):
+def create_graph(coin_prices):
     """Matplotlib로 그래프 생성 후 PNG 저장"""
+    coins = list(coin_prices.keys())
+    prices = list(coin_prices.values())
+
     plt.figure(figsize=(10, 5))
-    
-    # x축은 시간 (현재, 1분전, 2분전, 3분전, 4분전)
-    times = ["Now", "1 min ago", "2 min ago", "3 min ago", "4 min ago"]
-    
-    # y축은 가격
-    plt.plot(times, prices, label="Price (USD)", marker='o')
-    
-    plt.xlabel("Time")
+    plt.bar(coins, prices, color='blue')
+    plt.xlabel("Coins")
     plt.ylabel("Price (USD)")
-    plt.title("Cryptocurrency Price Changes Over the Last 5 Minutes")
-    plt.legend()
+    plt.title("Cryptocurrency Prices (USD)")
+    plt.xticks(rotation=45)
     plt.tight_layout()
     plt.savefig(IMG_PATH)  # 이미지 저장
     plt.close()
@@ -107,7 +89,6 @@ def update_readme(coin_prices):
 
 # 실행
 if __name__ == "__main__":
-    prices = track_price()  # 최근 5분간 가격 추적
-    create_graph(prices)  # 가격 변동 그래프 생성
-    coin_prices = get_coin()  # 최신 코인 가격 조회
-    update_readme(coin_prices)  # README 파일 업데이트
+    coin_prices = get_coin()
+    create_graph(coin_prices)  # 그래프 생성
+    update_readme(coin_prices)  # README 업데이트
