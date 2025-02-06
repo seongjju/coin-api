@@ -4,21 +4,12 @@ from datetime import datetime
 
 # 코인 리스트
 symbols = [
-    "BTCUSDT", "ETHUSDT", "BNBUSDT", "XRPUSDT", "ADAUSDT",
-    "SOLUSDT", "DOGEUSDT", "LTCUSDT", "DOTUSDT", "BCHUSDT"
+    "bitcoin", "ethereum", "binancecoin", "ripple", "cardano",
+    "solana", "dogecoin", "litecoin", "polkadot", "bitcoin-cash"
 ]
 
 # README 파일 경로
 README_PATH = "README.md"
-
-# 각 코인의 시세를 가져오는 함수
-import requests
-
-# 코인 리스트
-symbols = [
-    "bitcoin", "ethereum", "binancecoin", "ripple", "cardano",
-    "solana", "dogecoin", "litecoin", "polkadot", "bitcoin-cash"
-]
 
 # 각 코인의 시세를 가져오는 함수
 def get_coin():
@@ -43,7 +34,7 @@ def get_coin():
             # 각 코인의 가격을 가져와서 출력
             for symbol in symbols:
                 if symbol in data:
-                    coin_prices.append(f"{symbol.capitalize()}: {data[symbol]['usd']} USD")
+                    coin_prices.append(f"{symbol.capitalize()}: **${data[symbol]['usd']} USD**")
                 else:
                     coin_prices.append(f"{symbol.capitalize()}: Price data missing")
         else:
@@ -54,26 +45,21 @@ def get_coin():
     return coin_prices
 
 
-# 실행
-if __name__ == "__main__":
-    coin_info = get_coin()
-    print("\n".join(coin_info))
-
-
 # README.md 파일을 업데이트하는 함수
 def update_readme():
     """README.md 파일을 업데이트"""
     coin_info = get_coin()
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    # coin_info를 한 줄에 3개씩 그룹화하여 출력
+    chunked_info = [", ".join(coin_info[i:i + 3]) for i in range(0, len(coin_info), 3)]
+    coin_info_str = "\n".join(chunked_info)
     
-    # coin_info를 간결하게 만들기
-    coin_info_str = "\n".join(coin_info)
-    
-    # README 내용 작성
+    # README 내용 작성 (스타일 적용)
     readme_content = f"""
 # COIN API Status
 
-이 리포지토리는 BIANANCE API를 사용하여 코인 TOP 10 시세를 자동으로 업데이트합니다.
+이 리포지토리는 **CoinGecko API**를 사용하여 코인 TOP 10 시세를 자동으로 업데이트합니다.
 
 ## 현재 시세
 > {coin_info_str}
@@ -87,6 +73,8 @@ def update_readme():
     # README.md 파일에 내용 쓰기
     with open(README_PATH, "w", encoding="utf-8") as file:
         file.write(readme_content)
+
+
 
 # 실행
 if __name__ == "__main__":
