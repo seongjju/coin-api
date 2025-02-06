@@ -5,8 +5,7 @@ import matplotlib.pyplot as plt
 
 # 코인 리스트
 symbols = [
-    "bitcoin", "ethereum", "binancecoin", "ripple", "cardano",
-    "solana", "dogecoin", "litecoin", "polkadot", "bitcoin-cash"
+    "bitcoin", "ethereum", "ripple"
 ]
 
 # 파일 경로
