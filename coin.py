@@ -53,7 +53,7 @@ def update_readme():
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     # coin_info를 한 줄씩 출력되도록 처리
-    coin_info_str = "\n".join(coin_info)  # 한 줄에 한 코인씩 출력
+    coin_info_str = "<br>".join(coin_info)  # <br> 태그로 줄바꿈을 적용
     
     # README 내용 작성
     readme_content = f"""
