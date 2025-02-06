@@ -1,80 +1,69 @@
 import requests
-import time
-from datetime import datetime
 import matplotlib.pyplot as plt
+from datetime import datetime, timedelta
 
-# 코인 리스트
-symbols = [
-    "bitcoin", "ethereum", "binancecoin", "ripple", "cardano",
-    "solana", "dogecoin", "litecoin", "polkadot", "bitcoin-cash"
-]
+# 추적할 코인 리스트
+coins = ["bitcoin", "ethereum", "ripple"]  # Coingecko ID 기준 (ripple = XRP)
 
-# 파일 경로
-README_PATH = "README.md"
-IMG_PATH = "crypto_prices.png"
+IMG_PATHS = {coin: f"{coin}_price.png" for coin in coins}
 
-
-def get_coin():
-    """CoinGecko API에서 코인 가격 조회"""
-    coin_prices = {}
-
+def get_price(coin, time_delta=0):
+    """
+    지정된 코인의 가격을 가져옴.
+    time_delta: 현재 기준 몇 분 전 데이터를 가져올지
+    """
+    time_stamp = datetime.utcnow() - timedelta(minutes=time_delta)
     url = "https://api.coingecko.com/api/v3/simple/price"
-    params = {
-        'ids': ','.join(symbols),
-        'vs_currencies': 'usd'
-    }
+    params = {"ids": coin, "vs_currencies": "usd"}
+    
+    response = requests.get(url, params=params)
+    if response.status_code == 200:
+        return time_stamp.strftime("%H:%M"), response.json()[coin]["usd"]
+    return time_stamp.strftime("%H:%M"), None
 
-    try:
-        response = requests.get(url, params=params)
-        if response.status_code == 200:
-            data = response.json()
-            for symbol in symbols:
-                coin_prices[symbol.capitalize()] = data.get(symbol, {}).get('usd', None)
-        else:
-            print(f"Error: API 요청 실패 (Status Code {response.status_code})")
-    except Exception as e:
-        print(f"Request failed ({e})")
+def update_graphs():
+    """
+    모든 코인에 대한 그래프를 업데이트
+    """
+    for coin in coins:
+        price_data = [get_price(coin, i) for i in range(5)][::-1]  # 5분간 데이터 수집
+        
+        times, prices = zip(*price_data)
+        
+        plt.figure(figsize=(6, 4))
+        plt.plot(times, prices, marker="o", linestyle="-", color="blue", label=f"{coin.upper()} Price (USD)")
+        plt.xlabel("Time (UTC)")
+        plt.ylabel("Price (USD)")
+        plt.title(f"{coin.upper()} Price - Last 5 min")
+        plt.xticks(rotation=45)
+        plt.legend()
+        plt.grid()
+        
+        plt.savefig(IMG_PATHS[coin])
+        plt.close()
 
-    return coin_prices
-
-
-def create_graph(coin_prices):
-    """Matplotlib로 그래프 생성 후 PNG 저장"""
-    coins = list(coin_prices.keys())
-    prices = list(coin_prices.values())
-
-    plt.figure(figsize=(10, 5))
-    plt.bar(coins, prices, color='blue')
-    plt.xlabel("Coins")
-    plt.ylabel("Price (USD)")
-    plt.title("Cryptocurrency Prices (USD)")
-    plt.xticks(rotation=45)
-    plt.tight_layout()
-    plt.savefig(IMG_PATH)  # 이미지 저장
-    plt.close()
-
-
-def update_readme(coin_prices):
-    """README.md 업데이트"""
+def update_readme():
+    """
+    README.md 업데이트
+    """
     now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
 
-    # 코인 가격 정보 포맷팅
-    coin_info_str = "\n".join(
-        [f"- {coin}: **${price} USD**" if price else f"- {coin}: 데이터 없음"
-         for coin, price in coin_prices.items()]
-    )
-
-    # README.md 내용 작성
     readme_content = f"""
-# 📊 Cryptocurrency Prices (Updated)
+# 📊 Real-time Crypto Price Tracker
 
-이 리포지토리는 CoinGecko API를 사용하여 코인 TOP 10 시세를 자동으로 업데이트합니다.
+매 1분마다 업데이트되는 코인 가격 그래프입니다.  
+최근 **5분 간의 가격 변화**를 보여줍니다.
 
-## 💰 현재 시세
-{coin_info_str}
+## 📈 최근 5분 가격 변동
 
-## 📈 시세 변화 그래프
-![Crypto Prices](crypto_prices.png)
+### Bitcoin (BTC)
+![Bitcoin Price](bitcoin_price.png)
+
+### Ethereum (ETH)
+![Ethereum Price](ethereum_price.png)
+
+### Ripple (XRP)
+![Ripple Price](ripple_price.png)
 
 ⏳ 업데이트 시간: {now} (UTC)
 
@@ -82,13 +71,9 @@ def update_readme(coin_prices):
 자동 업데이트 봇에 의해 관리됩니다.
 """
 
-    # README.md 파일 저장
-    with open(README_PATH, "w", encoding="utf-8") as file:
+    with open("README.md", "w", encoding="utf-8") as file:
         file.write(readme_content)
 
-
-# 실행
 if __name__ == "__main__":
-    coin_prices = get_coin()
-    create_graph(coin_prices)  # 그래프 생성
-    update_readme(coin_prices)  # README 업데이트
+    update_graphs()
+    update_readme()
