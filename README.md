@@ -5,20 +5,20 @@
 
 ## 💰 현재 시세
 - Bitcoin: **$82800 USD**
-- Ethereum: **$1876.33 USD**
-- Binancecoin: **$563.27 USD**
-- Ripple: **$2.23 USD**
-- Cardano: **$0.73057 USD**
-- Solana: **$124.24 USD**
-- Dogecoin: **$0.168605 USD**
-- Litecoin: **$90.88 USD**
-- Polkadot: **$3.96 USD**
-- Bitcoin-cash: **$353.41 USD**
+- Ethereum: **$1876.5 USD**
+- Binancecoin: **$563.54 USD**
+- Ripple: **$2.24 USD**
+- Cardano: **$0.731744 USD**
+- Solana: **$124.61 USD**
+- Dogecoin: **$0.168816 USD**
+- Litecoin: **$91.14 USD**
+- Polkadot: **$3.97 USD**
+- Bitcoin-cash: **$354.96 USD**
 
 ## 📈 시세 그래프 (로그 스케일 적용)
 ![Crypto Prices](crypto_prices.png)
 
-⏳ 업데이트 시간: 2025-03-12 19:17:56 (UTC)
+⏳ 업데이트 시간: 2025-03-12 19:29:02 (UTC)
 
 ---
 자동 업데이트 봇에 의해 관리됩니다.
