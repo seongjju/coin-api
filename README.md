@@ -4,21 +4,21 @@
 이 리포지토리는 CoinGecko API를 사용하여 코인 TOP 10 시세를 10분가격으로 자동 업데이트합니다.
 
 ## 💰 현재 시세
-- Bitcoin: **$78026 USD**
-- Ethereum: **$1546.55 USD**
-- Binancecoin: **$549.5 USD**
-- Ripple: **$1.87 USD**
-- Cardano: **$0.570521 USD**
-- Solana: **$105.21 USD**
-- Dogecoin: **$0.146525 USD**
-- Litecoin: **$69.83 USD**
-- Polkadot: **$3.6 USD**
-- Bitcoin-cash: **$270.89 USD**
+- Bitcoin: **$78923 USD**
+- Ethereum: **$1565.34 USD**
+- Binancecoin: **$554.78 USD**
+- Ripple: **$1.89 USD**
+- Cardano: **$0.577993 USD**
+- Solana: **$106.99 USD**
+- Dogecoin: **$0.148511 USD**
+- Litecoin: **$70.52 USD**
+- Polkadot: **$3.62 USD**
+- Bitcoin-cash: **$273.9 USD**
 
 ## 📈 시세 그래프 (로그 스케일 적용)
 ![Crypto Prices](crypto_prices.png)
 
-⏳ 업데이트 시간: 2025-04-07 15:28:11 (UTC)
+⏳ 업데이트 시간: 2025-04-07 15:43:35 (UTC)
 
 ---
 자동 업데이트 봇에 의해 관리됩니다.
